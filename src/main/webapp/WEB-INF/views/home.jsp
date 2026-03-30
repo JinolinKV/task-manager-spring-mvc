@@ -40,7 +40,7 @@ transition:0.3s;
 style="background: linear-gradient(45deg,#ff6a00,#ee0979);">
 
 <h4 class="mb-0">
-<i class="bi bi-list-check"></i> Student Task Manager
+<i class="bi bi-list-check"></i>Task Manager
 </h4>
 
 <a class="btn btn-light btn-sm fw-bold"
