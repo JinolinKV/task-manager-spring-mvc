@@ -1,0 +1,11 @@
+com\task\controller\package-info.class
+com\task\service\TaskService.class
+com\task\config\WebInitializer.class
+com\task\config\SpringConfig.class
+com\task\controller\TaskController.class
+com\task\entity\Task.class
+com\task\dao\package-info.class
+com\task\config\package-info.class
+com\task\service\package-info.class
+com\task\entity\package-info.class
+package-info.class

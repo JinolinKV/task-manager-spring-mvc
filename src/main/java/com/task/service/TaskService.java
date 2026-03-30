@@ -1,51 +1,91 @@
 package com.task.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.task.dao.TaskDao;
 import com.task.entity.Task;
 
 @Service
 public class TaskService {
 
-    @Autowired
-    private TaskDao dao;
+    // In-memory list
+    private List<Task> list = new ArrayList<>();
+
+    private int idCounter = 1;
 
     // Get all tasks
     public List<Task> getTasks() {
-        return dao.getAllTasks();
+        return list;
     }
 
-    // Save or update task
+    // Save or Update
     public void saveTask(Task task) {
-        dao.saveTask(task);
+
+        // ADD
+        if (task.getId() == 0) {
+            task.setId(idCounter++);
+            task.setStatus("Pending");
+            list.add(task);
+        } 
+        
+        // UPDATE
+        else {
+            for (Task t : list) {
+                if (t.getId() == task.getId()) {
+                    t.setTitle(task.getTitle());
+                    t.setDescription(task.getDescription());
+                }
+            }
+        }
     }
 
-    // Delete task
+    // Delete
     public void deleteTask(int id) {
-        dao.deleteTask(id);
+        list.removeIf(t -> t.getId() == id);
     }
 
-    // Get task by id (for edit)
+    // Get by ID
     public Task getTaskById(int id) {
-        return dao.getTaskById(id);
+        return list.stream()
+                .filter(t -> t.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
-    // Mark task completed
+    // Mark complete
     public void markComplete(int id) {
-        dao.markComplete(id);
+        for (Task t : list) {
+            if (t.getId() == id) {
+                t.setStatus("Completed");
+            }
+        }
     }
 
-    // Get pending tasks
+    // Pending tasks
     public List<Task> getPendingTasks() {
-        return dao.getPendingTasks();
+        List<Task> result = new ArrayList<>();
+
+        for (Task t : list) {
+            if ("Pending".equals(t.getStatus())) {
+                result.add(t);
+            }
+        }
+
+        return result;
     }
 
-    // Get completed tasks
+    // Completed tasks
     public List<Task> getCompletedTasks() {
-        return dao.getCompletedTasks();
+        List<Task> result = new ArrayList<>();
+
+        for (Task t : list) {
+            if ("Completed".equals(t.getStatus())) {
+                result.add(t);
+            }
+        }
+
+        return result;
     }
 }
